@@ -1,0 +1,16 @@
+spring.application.name: registry
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    preferIpAddress: false
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+logging:
+  level:
+    root: WARN
+    com.dubyatoo: TRACE
