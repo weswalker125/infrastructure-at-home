@@ -1,16 +1,45 @@
+---
 spring.application.name: registry
-
-server:
-  port: 8761
 
 eureka:
   instance:
     preferIpAddress: false
+    registryFetchIntervalSeconds: 30
+    leaseRenewalIntervalInSeconds: 3
+    leaseExpirationDurationInSeconds: 5
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    registerWithEureka: true
+    fetchRegistry: true
+    healthcheck.enabled: true
+    serviceUrl:
+      defaultZone: http://registry1:8761/eureka/v2/,http://registry2:8762/eureka/v2/
+  server:
+    registrySyncRetries: 1
 
 logging:
   level:
     root: WARN
     com.dubyatoo: TRACE
+
+---
+spring.profiles: registry1
+
+server.port: 8761
+
+eureka:
+  instance:
+    hostname: peer1
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+
+---
+spring.profiles: registry2
+
+server.port: 8762
+
+eureka:
+  instance:
+    hostname: peer1
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}

@@ -4,11 +4,11 @@ server:
   port: 8082
 
 eureka:
-  instance:
-    preferIpAddress: true
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://duxtop:8761/eureka/
+      defaultZone: http://registry1:8761/eureka/v2/,http://registry2:8762/eureka/v2/
 
 logging:
   level:
