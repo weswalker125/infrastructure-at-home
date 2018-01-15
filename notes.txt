@@ -1,0 +1,25 @@
+alias java=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+export peer1=ec2-13-57-29-129.us-west-1.compute.amazonaws.com
+export port1=8761
+export peer2=ec2-54-183-148-132.us-west-1.compute.amazonaws.com
+export port2=8762
+export peer3=ec2-52-53-179-111.us-west-1.compute.amazonaws.com
+export port3=8763
+
+
+java -Dserver.port=${port1} -Deureka.client.serviceUrl.defaultZone=http://${peer2}:${port2}/eureka/v2/,http://${peer3}:${port3}/eureka/v2/,http://${peer1}:${port1}/eureka/v2/ -jar registry.jar
+
+java -Dserver.port=${port2} -Deureka.client.serviceUrl.defaultZone=http://${peer3}:${port3}/eureka/v2/,http://${peer1}:${port1}/eureka/v2/,http://${peer2}:${port2}/eureka/v2/ -jar registry.jar 
+
+java -Dserver.port=${port3} -Deureka.client.serviceUrl.defaultZone=http://${peer1}:${port1}/eureka/v2/,http://${peer2}:${port2}/eureka/v2/,http://${peer3}:${port3}/eureka/v2/ -jar registry.jar 
+
+
+#gateway
+java -Deureka.client.serviceUrl.defaultZone=http://${peer1}:${port1}/eureka/v2/,http://${peer2}:${port2}/eureka/v2/,http://${peer3}:${port3}/eureka/v2/ -jar gateway/build/libs/gateway.jar
+
+
+java -Dserver.port=${port1} -Deureka.client.serviceUrl.defaultZone=http://${peer1}:${port1}/eureka/,http://${peer2}:${port2}/eureka/,http://${peer3}:${port3}/eureka/ -jar registry.jar
+
+java -Dserver.port=${port2} -Deureka.client.serviceUrl.defaultZone=http://${peer1}:${port1}/eureka/,http://${peer2}:${port2}/eureka/,http://${peer3}:${port3}/eureka/ -jar registry.jar
+
+java -Dserver.port=${port3} -Deureka.client.serviceUrl.defaultZone=http://${peer1}:${port1}/eureka/,http://${peer2}:${port2}/eureka/,http://${peer3}:${port3}/eureka/ -jar registry.jar
