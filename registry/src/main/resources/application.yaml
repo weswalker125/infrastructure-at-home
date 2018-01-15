@@ -1,4 +1,7 @@
 ---
+# Spring Boot 1.5.9.RELEASE
+# mavenBom org.springframework.cloud:spring-cloud-dependencies:Edgware.RELEASE
+# Do not use "/v2/", incompatible with Peer Awareness in 1.5.9/Edgware it seems
 spring.application.name: registry
 
 eureka:
@@ -11,10 +14,14 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     healthcheck.enabled: true
-    serviceUrl:
-      defaultZone: http://registry1:8761/eureka/v2/,http://registry2:8762/eureka/v2/
+    serviceUrl.defaultZone: 
+      - http://ec2-13-57-29-129.us-west-1.compute.amazonaws.com:8761/eureka/
+      - http://ec2-54-183-148-132.us-west-1.compute.amazonaws.com:8762/eureka/
+      - http://ec2-52-53-179-111.us-west-1.compute.amazonaws.com:8763/eureka/
+
   server:
     registrySyncRetries: 1
+    enable-self-preservation: false
 
 logging:
   level:
@@ -28,11 +35,10 @@ server.port: 8761
 
 eureka:
   instance:
-    hostname: peer1
+    hostname: ec2-13-57-29-129.us-west-1.compute.amazonaws.com
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
-
+  
 ---
 spring.profiles: registry2
 
@@ -40,6 +46,17 @@ server.port: 8762
 
 eureka:
   instance:
-    hostname: peer1
+    hostname: ec2-54-183-148-132.us-west-1.compute.amazonaws.com
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+---
+spring.profiles: registry3
+
+server.port: 8763
+
+eureka:
+  instance:
+    hostname: ec2-52-53-179-111.us-west-1.compute.amazonaws.com
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}

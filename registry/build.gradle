@@ -11,7 +11,7 @@ jar {
 
 dependencyManagement {
   imports {
-    mavenBom 'org.springframework.cloud:spring-cloud-netflix:1.3.4.RELEASE'
+    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Edgware.RELEASE'
   }
 }
 
