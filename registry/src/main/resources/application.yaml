@@ -14,10 +14,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     healthcheck.enabled: true
-    serviceUrl.defaultZone: 
-      - http://ec2-13-57-29-129.us-west-1.compute.amazonaws.com:8761/eureka/
-      - http://ec2-54-183-148-132.us-west-1.compute.amazonaws.com:8762/eureka/
-      - http://ec2-52-53-179-111.us-west-1.compute.amazonaws.com:8763/eureka/
+    serviceUrl.defaultZone: http://ec2-54-197-19-241.compute-1.amazonaws.com:8761/eureka/,http://ec2-54-152-148-58.compute-1.amazonaws.com:8762/eureka/,http://ec2-54-172-170-95.compute-1.amazonaws.com:8763/eureka/
 
   server:
     registrySyncRetries: 1
@@ -35,7 +32,7 @@ server.port: 8761
 
 eureka:
   instance:
-    hostname: ec2-13-57-29-129.us-west-1.compute.amazonaws.com
+    hostname: peer1
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   
@@ -46,7 +43,7 @@ server.port: 8762
 
 eureka:
   instance:
-    hostname: ec2-54-183-148-132.us-west-1.compute.amazonaws.com
+    hostname: peer2
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
@@ -57,6 +54,6 @@ server.port: 8763
 
 eureka:
   instance:
-    hostname: ec2-52-53-179-111.us-west-1.compute.amazonaws.com
+    hostname: peer3
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
