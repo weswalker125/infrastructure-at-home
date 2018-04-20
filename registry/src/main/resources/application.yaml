@@ -10,11 +10,12 @@ eureka:
     registryFetchIntervalSeconds: 30
     leaseRenewalIntervalInSeconds: 3
     leaseExpirationDurationInSeconds: 5
+    metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id}:${random.value}}
   client:
     registerWithEureka: true
     fetchRegistry: true
     healthcheck.enabled: true
-    serviceUrl.defaultZone: http://ec2-54-197-19-241.compute-1.amazonaws.com:8761/eureka/,http://ec2-54-152-148-58.compute-1.amazonaws.com:8762/eureka/,http://ec2-54-172-170-95.compute-1.amazonaws.com:8763/eureka/
+    serviceUrl.defaultZone: 
 
   server:
     registrySyncRetries: 1
@@ -33,9 +34,7 @@ server.port: 8761
 eureka:
   instance:
     hostname: peer1
-    metadataMap:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  
+  client.serviceUrl.defaultZone: http://peer2:8762/eureka/,http://peer3:8763/eureka/
 ---
 spring.profiles: registry2
 
@@ -44,8 +43,7 @@ server.port: 8762
 eureka:
   instance:
     hostname: peer2
-    metadataMap:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client.serviceUrl.defaultZone: http://peer1:8761/eureka/,http://peer3:8763/eureka/
 
 ---
 spring.profiles: registry3
@@ -55,5 +53,4 @@ server.port: 8763
 eureka:
   instance:
     hostname: peer3
-    metadataMap:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client.serviceUrl.defaultZone: http://peer1:8761/eureka/,http://peer2:87632eureka/
